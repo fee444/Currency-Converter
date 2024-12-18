@@ -2,15 +2,18 @@ const convertButton = document.querySelector(".convert-button")
 const selectConvert = document.querySelector(".options-convert")
 
 
-function convertCurrency(event) {
+
+
+const convertCurrency = async (event) => {
     const inputValue = document.querySelector(".input-value").value
     const enteredValue = document.querySelector(".currency-value-to-convert")
     const valueConverted = document.querySelector(".currency-value")
-    const dolar = 5.76
-    const euro = 6.3
-    const libra = 7.46
-    const yuan = 0.8
-
+    const dataBase = await fetch("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL,CNY-BRL,GBP-BRL").then(response => response.json())
+    const dolar = dataBase.USDBRL.high
+    const euro = dataBase.EURBRL.high
+    const libra = dataBase.GBPBRL.high
+    const yuan = dataBase.CNYBRL.high
+    console.log(dataBase)
     if (selectConvert.value == "dolar") {
         valueConverted.innerHTML = new Intl.NumberFormat("en-US", {
             style: "currency", currency: "USD"
@@ -26,16 +29,16 @@ function convertCurrency(event) {
         valueConverted.innerHTML = new Intl.NumberFormat('en-GB', {
             style: 'currency',
             currency: 'GBP',
-          }).format(inputValue / libra)
-        
+        }).format(inputValue / libra)
+
     }
 
     if (selectConvert.value == "china") {
-        valueConverted.innerHTML =new Intl.NumberFormat('zh-CN', {
+        valueConverted.innerHTML = new Intl.NumberFormat('zh-CN', {
             style: 'currency',
             currency: 'CNY',
-          }).format(inputValue / yuan)
-        
+        }).format(inputValue / yuan)
+
     }
 
 
@@ -47,7 +50,7 @@ function convertCurrency(event) {
 
 
 
-function changeSelect(event) {  //função que verifica a troca do select
+const changeSelect = (event) => {  //função que verifica a troca do select
     const currencyName = document.querySelector("#currency-name")
     const currencyImage = document.querySelector(".currency-img")
 
@@ -65,7 +68,7 @@ function changeSelect(event) {  //função que verifica a troca do select
 
     if (selectConvert.value == "libra") {
         currencyName.innerHTML = "Libra"
-        currencyImage.src = "./assets/libra 1.svg" 
+        currencyImage.src = "./assets/libra 1.svg"
 
     }
 
@@ -77,8 +80,8 @@ function changeSelect(event) {  //função que verifica a troca do select
 
     }
 
-    
-    
+
+
     convertCurrency()
 
 }
